@@ -7,6 +7,7 @@ import ScrollFloat from "../src/components/ScrollFloat";
 import laptop from "./assets/laptop.png";
 import icon from "./assets/code.png";
 import logo from "./assets/github.svg";
+import marta from "./assets/marta.png";
 import StickerPeel from "../src/components/StickerPeel";
 import SplashCursor from "../src/components/SplashCursor";
 import StarBorder from "../src/components/StarBorder";
@@ -115,9 +116,9 @@ function App() {
                             handle="sprigatita"
                             status="Online"
                             contactText="Contact Me"
-                            avatarUrl="./assets/marta.png"
+                            avatarUrl={marta}
                             iconUrl={icon}
-                            miniAvatarUrl="./assets/marta.png"
+                            miniAvatarUrl={marta}
                             showUserInfo={true}
                             enableTilt={true}
                             enableMobileTilt={false}
