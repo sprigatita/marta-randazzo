@@ -4,9 +4,9 @@ import ProfileCard from "../src/components/ProfileCard";
 import MagicBento from "../src/components/MagicBento";
 import TextType from "../src/components/TextType";
 import ScrollFloat from "../src/components/ScrollFloat";
-import laptop from "../src/assets/laptop.png"
-import icon from "../src/assets/code.png"
-import logo from "../src/assets/github.svg"
+import laptop from "./assets/laptop.png";
+import icon from "./assets/code.png";
+import logo from "./assets/github.svg";
 import StickerPeel from "../src/components/StickerPeel";
 import SplashCursor from "../src/components/SplashCursor";
 import StarBorder from "../src/components/StarBorder";
