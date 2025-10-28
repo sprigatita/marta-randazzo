@@ -115,9 +115,9 @@ function App() {
                             handle="sprigatita"
                             status="Online"
                             contactText="Contact Me"
-                            avatarUrl="../src/assets/marta.png"
+                            avatarUrl="./assets/marta.png"
                             iconUrl={icon}
-                            miniAvatarUrl="../src/assets/marta.png"
+                            miniAvatarUrl="./assets/marta.png"
                             showUserInfo={true}
                             enableTilt={true}
                             enableMobileTilt={false}
