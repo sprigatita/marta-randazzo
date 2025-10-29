@@ -37,6 +37,9 @@ const GithubStats: React.FC = () => {
                 const user = "sprigatita"; // 👈 il tuo username GitHub
                 const token = import.meta.env.VITE_GITHUB_TOKEN;
                 const headers: HeadersInit = {};
+                console.log("Token presente?", !!token);
+                console.log("Token preview:", token?.slice(0, 5));
+
 
                 if (token) {
                     (headers as Record<string, string>).Authorization = `token ${token}`;
