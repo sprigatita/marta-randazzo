@@ -202,7 +202,7 @@ function App() {
                 />
                 <div className="footer-content">
                     <p className="footer-subtext">
-                        If you made it down here... I'm honestly surprised!
+                        If you made it down here... I'm impressed!
                     </p>
                     <p className="footer-copy">
                         © {new Date().getFullYear()} Marta – I need a copywriter to understand what to write in here.
