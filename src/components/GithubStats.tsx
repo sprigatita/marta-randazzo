@@ -39,8 +39,9 @@ const GithubStats: React.FC = () => {
                 const headers: HeadersInit = {};
 
                 if (token) {
-                    (headers as Record<string, string>).Authorization = `Bearer ${token}`;
+                    (headers as Record<string, string>).Authorization = `token ${token}`;
                 }
+
 
                 if (!token) {
                     console.warn(
