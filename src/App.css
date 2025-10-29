@@ -1,43 +1,221 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+
+.app-container {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #000;
+  color: #fff;
+}
+
+/* HERO */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  background-color: #1a1a1a;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.hero-title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 800;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ABOUT */
+.about-section {
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.about-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 1100px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-text {
+  flex: 1 1 400px;
+  min-width: 300px;
+}
+
+.about-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* TOOLKIT */
+.toolkit-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.toolkit-description {
+  margin-top: 1rem;
+  opacity: 0.7;
+  max-width: 600px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+/* GITHUB */
+.github-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 6rem 2rem;
+}
+
+.github-image {
+  flex: 1 1 400px;
+  min-width: 280px;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.github-laptop {
+  width: 100%;
+  border-radius: 0.5rem;
+  height: auto;
+}
+
+.github-text {
+  flex: 1 1 400px;
+  max-width: 600px;
+  text-align: left;
+}
+
+.github-text h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.footer-copy {
+  margin-top: 2rem;
+  font-style: italic;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+/* 📱 MEDIA QUERIES */
+@media (max-width: 1024px) {
+  .about-wrapper {
+    flex-direction: column;
+    text-align: center;
   }
-  to {
-    transform: rotate(360deg);
+
+  .about-text {
+    order: 2;
+  }
+
+  .github-text {
+    text-align: center;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (max-width: 600px) {
+  .about-section,
+  .github-section {
+    padding: 3rem 1rem;
+  }
+
+  .about-paragraph {
+    font-size: 1rem;
+  }
+
+}
+
+
+/*Respnsvie per il footer madonna quanto ti odio*/
+.footer-section {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 6vh, 64px) 16px;
+  min-block-size: 60vh;
+  min-block-size: 60svh;
+  background: #000;
+  text-align: center;
+  color: #fff;
+}
+
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.footer-inner {
+  z-index: 1;
+  max-width: min(900px, 92vw);
+}
+
+.footer-inner h1 {
+  margin: 0 0 1rem 0;
+  font-size: clamp(2.2rem, 8vw, 6rem);
+  line-height: 1.1;
+  font-weight: 400;
+  font-family: "Clash Display", sans-serif;
+  text-shadow: 0 0 20px rgba(0,0,0,0.4);
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.footer-subtext {
+  margin: 0.25rem 0 0;
+  font-family: "Allison", cursive;
+  font-size: clamp(1.2rem, 4.5vw, 2.4rem);
+  opacity: 0.85;
+}
+
+.footer-copy {
+  margin-top: 1.25rem;
+  font-style: italic;
+  opacity: 0.65;
+  font-size: clamp(0.85rem, 2.8vw, 1rem);
+}
+
+@media (max-width: 600px) {
+  .footer-section {
+    min-block-size: 50svh;
+    padding: 24px 14px;
+  }
+}
+.footer-bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+@media (max-width: 768px) {
+  .footer-title {
+    display: none;
   }
 }
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
-}

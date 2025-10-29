@@ -13,26 +13,13 @@ import SplashCursor from "../src/components/SplashCursor";
 import StarBorder from "../src/components/StarBorder";
 import GithubStats from "../src/components/GithubStats";
 import GradientBlinds from "../src/components/GradientBlinds";
+import "./App.css";
 
 function App() {
-
     return (
-        <div style={{ width: "100%", overflowX: "hidden" }}>
-
-
-
-            <section
-                style={{
-                    position: "relative",
-                    width: "100vw",
-                    height: "100vh",
-                    overflow: "hidden",
-                    backgroundColor: "#000",
-                }}
-            >
-
-
-
+        <div className="app-container">
+            {/* HERO */}
+            <section className="hero-section">
                 <LiquidEther
                     colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
                     mouseForce={20}
@@ -58,58 +45,21 @@ function App() {
                         zIndex: 0,
                     }}
                 />
-
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        color: "#fff",
-                        pointerEvents: "none",
-                    }}
-                >
+                <div className="hero-text">
                     <BlurText
                         text="Turning logic into experience."
                         delay={450}
                         animateBy="words"
                         direction="top"
-                        className="text-7xl font-extrabold"
+                        className="hero-title"
                     />
                 </div>
             </section>
 
-            <section
-                id="about"
-                style={{
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    padding: "4rem 2rem",
-                    display: "flex",
-                    justifyContent: "center",
-                }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "3rem",
-                        maxWidth: "1100px",
-                        width: "100%",
-                        flexWrap: "wrap",
-                    }}
-                >
-                    {/* CARD A SINISTRA */}
-                    <div style={{ flex: "1 1 300px", display: "flex", justifyContent: "center" }}>
+            {/* ABOUT */}
+            <section id="about" className="about-section">
+                <div className="about-wrapper">
+                    <div className="about-card">
                         <ProfileCard
                             name="Marta Randazzo"
                             title="Software Developer"
@@ -123,12 +73,15 @@ function App() {
                             enableTilt={true}
                             enableMobileTilt={false}
                             onContactClick={() =>
-                                window.open("https://www.linkedin.com/in/marta-randazzo/", "_blank")
+                                window.open(
+                                    "https://www.linkedin.com/in/marta-randazzo/",
+                                    "_blank"
+                                )
                             }
                         />
                     </div>
 
-                    <div style={{ flex: "1 1 400px" }}>
+                    <div className="about-text">
                         <TextType
                             style={{
                                 fontSize: "3rem",
@@ -142,71 +95,36 @@ function App() {
                             showCursor={true}
                             cursorCharacter="|"
                         />
-                        <p
-                            style={{
-                                fontSize: "1.25rem",
-                                lineHeight: 1.8,
-                                opacity: 0.85,
-                            }}
-                        >
+                        <p className="about-paragraph">
                             I’m Marta, a 25-year-old software developer based in Rome, Italy.
-                            Currently studying Computer Science, I like both backend engineering and frontend experiences.
-                            <br></br> <strong>I don’t write code to fill screens.</strong>
+                            Currently studying Computer Science, I like both backend
+                            engineering and frontend experiences.
+                            <br />
+                            <strong>I don’t write code to fill screens.</strong>
                         </p>
                     </div>
                 </div>
             </section>
 
-
-            <section
-                id="curvedLoops"
-                style={{
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "4rem 2rem",
-                    textAlign: "center",
-                }}
-            >
-
+            {/* TOOLKIT */}
+            <section id="curvedLoops" className="toolkit-section">
                 <ScrollFloat
                     animationDuration={1}
-                    ease='back.inOut(2)'
-                    scrollStart='center bottom+=50%'
-                    scrollEnd='bottom bottom-=40%'
+                    ease="back.inOut(2)"
+                    scrollStart="center bottom+=50%"
+                    scrollEnd="bottom bottom-=40%"
                     stagger={0.03}
                 >
                     My Digital Toolkit
                 </ScrollFloat>
-                <p
-                    style={{
-                        marginTop: "1rem",
-                        fontSize: "1rem",
-                        opacity: 0.7,
-                        maxWidth: "600px",
-                        lineHeight: 1.6,
-                    }}
-                >
+                <p className="toolkit-description">
                     The languages, frameworks, and libraries I talk to daily.
                     Some of them even talk back.
                 </p>
-
-
             </section>
 
-            <section
-                id="techStack"
-                style={{
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    display: "flex",
-                    justifyContent: "center",
-                }}
-            >
-
+            {/* TECH STACK */}
+            <section id="techStack" className="techstack-section">
                 <MagicBento
                     textAutoHide={true}
                     enableStars={true}
@@ -219,46 +137,12 @@ function App() {
                     particleCount={12}
                     glowColor="132, 0, 255"
                 />
-
-
             </section>
 
-            <section
-                id="github"
-                style={{
-                    position: "relative",
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "2rem",
-                    padding: "6rem 2rem",
-                }}
-            >
-                <div
-                    style={{
-                        flex: "1 1 400px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position: "relative",
-                        minWidth: "280px",
-                        maxWidth: "500px",
-                    }}
-                >
-                    <img
-                        src={laptop}
-                        alt="Github Profile"
-                        style={{
-                            width: "100%",
-                            height: "auto",
-                            borderRadius: "0.5rem",
-                            pointerEvents: "none",
-                        }}
-                    />
-
+            {/* GITHUB */}
+            <section id="github" className="github-section">
+                <div className="github-image">
+                    <img src={laptop} alt="Github Profile" className="github-laptop" />
                     <StickerPeel
                         imageSrc={logo}
                         width={180}
@@ -272,59 +156,22 @@ function App() {
                     />
                 </div>
 
-                <div
-                    style={{
-                        flex: "1 1 400px",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        gap: "1rem",
-                        maxWidth: "600px",
-                        textAlign: "left",
-                    }}
-                >
-                    <h2
-                        style={{
-                            fontSize: "2.5rem",
-                            fontWeight: "bold",
-                            marginBottom: "0.5rem",
-                            lineHeight: 1.2,
-                        }}
-                    >
-                        My GitHub Chronicles
-                    </h2>
-
-                    <p
-                        style={{
-                            fontSize: "1.15rem",
-                            lineHeight: 1.7,
-                            opacity: 0.85,
-                        }}
-                    >
+                <div className="github-text">
+                    <h2>My GitHub Chronicles</h2>
+                    <p>
                         A chaotic mix of <strong>university assignments</strong>,
                         half-finished ideas, and <em>“I’ll clean this up later”</em> projects.
-                        <br></br>
+                        <br />
                         You’ll find <strong>empty repos</strong> full of dreams,
-                         <strong>3 a.m. experiments</strong> that somehow compile,
+                        <strong>3 a.m. experiments</strong> that somehow compile,
                         and the occasional piece of code that actually works.
                     </p>
 
-
-
-                    <StarBorder
-                        as="button"
-                        className="custom-class"
-                        color="cyan"
-                        speed="5s"
-                    >
-
+                    <StarBorder as="button" className="custom-class" color="cyan" speed="5s">
                         <a
                             href="https://github.com/sprigatita"
                             target="_blank"
                             rel="noopener noreferrer"
-
-                            onMouseOver={(e) => ((e.currentTarget.style.transform = "scale(1.05)"))}
-                            onMouseOut={(e) => ((e.currentTarget.style.transform = "scale(1)"))}
                         >
                             Check it out
                         </a>
@@ -332,35 +179,13 @@ function App() {
                 </div>
             </section>
 
-            {/* 🌌 GITHUB STATS SECTION */}
-            <section
-                id="github-stats"
-                style={{
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "6rem 2rem",
-                    textAlign: "center",
-                }}
-            >
+            {/* GITHUB STATS */}
+            <section id="github-stats" className="github-stats-section">
                 <GithubStats />
             </section>
 
-            {/* ✅ FOOTER CON GRADIENTBLINDS FIXATO */}
-            <section
-                style={{
-                    position: "relative",
-                    overflow: "hidden",
-                    minHeight: "60vh",
-                    background: "#000",
-                    color: "#fff",
-                    textAlign: "center",
-                }}
-            >
-                {/* 🌈 SFONDO ANIMATO */}
+            {/* FOOTER */}
+            <section className="footer-section">
                 <GradientBlinds
                     gradientColors={["#FF9FFC", "#5227FF"]}
                     angle={0}
@@ -375,60 +200,19 @@ function App() {
                     shineDirection="left"
                     mixBlendMode="normal"
                 />
-
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 2,
-                        textAlign: "center",
-                        pointerEvents: "none",
-                    }}
-                >
-                    <h1
-                        style={{
-                            fontFamily: "'Clash Display', sans-serif",
-                            fontSize: "6rem",
-                            fontWeight: 400,
-                            color: "#fff",
-                            textShadow: "0 0 20px rgba(0,0,0,0.4)",
-                            margin: 0,
-                        }}
-                    >
-                        The End.
-                    </h1>
-                </div>
-
-
-                <div style={{ position: "relative", zIndex: 1, padding: "4rem 2rem" }}>
-                    <p
-                        style={{
-                            fontFamily: "'Allison', cursive",
-                            fontSize: "2.8rem",
-                            marginBottom: "1rem",
-                            fontWeight: 400,
-                            textShadow: "0 0 12px rgba(0,0,0,0.25)",
-                            margin: "0.5rem 0 0 0",
-                            opacity: 0.8
-                        }}>
+                <div className="footer-content">
+                    <p className="footer-subtext">
                         If you made it down here... I'm honestly surprised.
                     </p>
-                    <p style={{ margin: "2rem 0 0 0", fontStyle: "italic", opacity: 0.6 }}>
+                    <p className="footer-copy">
                         © {new Date().getFullYear()} Marta – I need a copywriter to understand what to write in here.
-                    </p>                </div>
+                    </p>
+                </div>
             </section>
 
-
-
             <SplashCursor />
-
         </div>
     );
 }
-
-
-
 
 export default App;
