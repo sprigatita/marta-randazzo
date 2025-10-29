@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    readonly VITE_GITHUB_TOKEN?: string;
+    readonly VITE_GITHUB_TOKEN?: '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';
 }
 
 interface ImportMeta {
