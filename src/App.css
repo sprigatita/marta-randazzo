@@ -49,14 +49,6 @@ html, body {
   color: #fff;
 }
 
-section {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 .techstack-section,
 .github-stats-section {
   width: 100%;
