@@ -32,36 +32,50 @@ const GithubStats: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-        useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const res = await fetch("/api/github");
-                    if (!res.ok) throw new Error(`Server API error: ${res.status}`);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch("/api/github");
+                if (!res.ok) throw new Error(`Server API error: ${res.status}`);
 
-                    const { repos, languages: langMap } = await res.json();
+                const repos = await res.json();
+                setRepos(repos);
 
-                    setRepos(repos);
+                const langMap: Record<string, number> = {};
 
-                    const total = Object.values(langMap)
-                        .filter((v): v is number => typeof v === "number")
-                        .reduce((a, b) => a + b, 0);
-                    const langArray = Object.entries(langMap)
-                        .map(([name, value]) => ({
-                            name,
-                            value: ((value as number) / total) * 100,
-                        }))
-                        .sort((a, b) => b.value - a.value);
+                await Promise.all(
+                    repos.slice(0, 10).map(async (repo: any) => {
+                        const langRes = await fetch(repo.languages_url);
+                        if (!langRes.ok) throw new Error(`Lang API error: ${langRes.status}`);
 
-                    setLanguages(langArray);
-                } catch (err) {
-                    setError((err as Error).message);
-                } finally {
-                    setLoading(false);
-                }
-            };
+                        const langData = await langRes.json();
+                        for (const [lang, bytes] of Object.entries(langData)) {
+                            langMap[lang] = (langMap[lang] || 0) + (bytes as number);
+                        }
+                    })
+                );
 
-            fetchData();
-        }, []);
+                const total = Object.values(langMap)
+                    .filter((v): v is number => typeof v === "number")
+                    .reduce((a, b) => a + b, 0);
+
+                const langArray = Object.entries(langMap)
+                    .map(([name, value]) => ({
+                        name,
+                        value: ((value as number) / total) * 100,
+                    }))
+                    .sort((a, b) => b.value - a.value);
+
+                setLanguages(langArray);
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <section
