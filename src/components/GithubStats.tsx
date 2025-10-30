@@ -35,7 +35,6 @@ const GithubStats: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const user = "sprigatita"; // 👈 il tuo username GitHub
                 const token = import.meta.env.VITE_GITHUB_TOKEN;
                 const headers: HeadersInit = {};
 
@@ -52,17 +51,10 @@ const GithubStats: React.FC = () => {
                     );
                 }
 
-                // Ottieni le repo pubbliche
-                const res = await fetch(`https://api.github.com/users/${user}/repos`, {
-                    headers,
-                });
-
-                if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-
+                const res = await fetch('/api/github');
                 const data = await res.json();
-                setRepos(data);
 
-                // Calcola linguaggi più usati
+
                 const langMap: Record<string, number> = {};
                 await Promise.all(
                     data.slice(0, 10).map(async (repo: any) => {

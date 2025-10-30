@@ -140,7 +140,7 @@ function App() {
             </section>
 
             {/* GITHUB */}
-            {/*<section id="github" className="github-section">
+            <section id="github" className="github-section">
                 <div className="github-image">
                     <img src={laptop} alt="Github Profile" className="github-laptop" />
                     <StickerPeel
@@ -177,7 +177,7 @@ function App() {
                         </a>
                     </StarBorder>
                 </div>
-            </section>*/}
+            </section>
 
             {/* GITHUB STATS */}
             <section id="github-stats" className="github-stats-section">
