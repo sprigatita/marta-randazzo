@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const response = await fetch(`https://api.github.com/users/sprigatita`, {
+        const response = await fetch(`https://api.github.com/users/sprigatita/repos`, {
             headers: {
                 Authorization: `token ${token}`,
                 Accept: 'application/vnd.github.v3+json',
