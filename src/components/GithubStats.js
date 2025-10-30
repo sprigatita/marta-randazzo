@@ -19,19 +19,33 @@ const GithubStats = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/github"); // ✅ chiamata al proxy server
+                const user = "sprigatita"; // 👈 il tuo username GitHub
+                const headers = {
+                    Accept: "application/vnd.github.v3+json",
+                };
+                // Ottieni le repo pubbliche
+                const res = await fetch(`https://api.github.com/users/${user}/repos`, {
+                    headers,
+                });
                 if (!res.ok)
-                    throw new Error(`Server API error: ${res.status}`);
-                const { repos, languages: langMap } = await res.json();
-                setRepos(repos);
-                const total = Object.values(langMap)
-                    .filter((v) => typeof v === "number")
-                    .reduce((a, b) => a + b, 0);
+                    throw new Error(`GitHub API error: ${res.status}`);
+                const data = await res.json();
+                setRepos(data);
+                // Calcola linguaggi più usati
+                const langMap = {};
+                // Limitiamo a 10 repo per non superare il rate limit
+                await Promise.all(data.slice(0, 10).map(async (repo) => {
+                    const langRes = await fetch(repo.languages_url, { headers });
+                    if (langRes.ok) {
+                        const langData = await langRes.json();
+                        for (const [lang, bytes] of Object.entries(langData)) {
+                            langMap[lang] = (langMap[lang] || 0) + bytes;
+                        }
+                    }
+                }));
+                const total = Object.values(langMap).reduce((a, b) => a + b, 0);
                 const langArray = Object.entries(langMap)
-                    .map(([name, value]) => ({
-                    name,
-                    value: (value / total) * 100,
-                }))
+                    .map(([name, value]) => ({ name, value: (value / total) * 100 }))
                     .sort((a, b) => b.value - a.value);
                 setLanguages(langArray);
             }
@@ -78,9 +92,11 @@ const GithubStats = () => {
                                     borderRadius: "6px",
                                     transition: "background 0.3s",
                                 }, onMouseEnter: (e) => {
-                                    e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                                    e.currentTarget.style.background =
+                                        "rgba(255,255,255,0.12)";
                                 }, onMouseLeave: (e) => {
-                                    e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                                    e.currentTarget.style.background =
+                                        "rgba(255,255,255,0.05)";
                                 }, children: [_jsx("span", { style: {
                                             display: "inline-block",
                                             width: "12px",

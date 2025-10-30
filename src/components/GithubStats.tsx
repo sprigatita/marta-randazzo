@@ -16,6 +16,7 @@ interface LanguageData {
     [key: string]: string | number;
 }
 
+
 const COLORS = [
     "#E580D8",
     "#72E8E0",
@@ -35,21 +36,9 @@ const GithubStats: React.FC = () => {
         const fetchData = async () => {
             try {
                 const user = "sprigatita"; // 👈 il tuo username GitHub
-                const token = import.meta.env.VITE_GITHUB_TOKEN;
-                const headers: HeadersInit = {};
-
-                if (token) {
-                    (headers as Record<string, string>).Authorization = `token ${token}`;
-                }
-
-
-                if (!token) {
-                    console.warn(
-                        "%c⚠️ GitHub token mancante:",
-                        "color: orange; font-weight: bold;",
-                        "le API funzioneranno ma con limiti (60 richieste/ora)"
-                    );
-                }
+                const headers: HeadersInit = {
+                    Accept: "application/vnd.github.v3+json",
+                };
 
                 // Ottieni le repo pubbliche
                 const res = await fetch(`https://api.github.com/users/${user}/repos`, {
@@ -57,18 +46,21 @@ const GithubStats: React.FC = () => {
                 });
 
                 if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-
                 const data = await res.json();
                 setRepos(data);
 
                 // Calcola linguaggi più usati
                 const langMap: Record<string, number> = {};
+
+                // Limitiamo a 10 repo per non superare il rate limit
                 await Promise.all(
                     data.slice(0, 10).map(async (repo: any) => {
                         const langRes = await fetch(repo.languages_url, { headers });
-                        const langData = await langRes.json();
-                        for (const [lang, bytes] of Object.entries(langData)) {
-                            langMap[lang] = (langMap[lang] || 0) + (bytes as number);
+                        if (langRes.ok) {
+                            const langData = await langRes.json();
+                            for (const [lang, bytes] of Object.entries(langData)) {
+                                langMap[lang] = (langMap[lang] || 0) + (bytes as number);
+                            }
                         }
                     })
                 );
@@ -101,7 +93,7 @@ const GithubStats: React.FC = () => {
                 alignItems: "center",
                 gap: "4rem",
                 minHeight: "60vh",
-                flexDirection: "row", // 👈 testo a sinistra, grafico a destra
+                flexDirection: "row",
             }}
         >
             {loading ? (
@@ -121,15 +113,12 @@ const GithubStats: React.FC = () => {
                             flex: "1 1 300px",
                         }}
                     >
-                        <TextPressure
-                            text="Some boring numbers"
-                            scale={true}
-                        />
+                        <TextPressure text="Some boring numbers" scale={true} />
 
                         <p style={{ opacity: 0.8, marginBottom: "1.5rem" }}>
-                            Currently juggling{" "}
-                            <strong>{repos.length}</strong> repositories.
-                            My GitHub is a chaotic mix of empty repos, university projects, and brilliant ideas born at 3 AM. Some even compile.
+                            Currently juggling <strong>{repos.length}</strong> repositories.
+                            My GitHub is a chaotic mix of empty repos, university projects, and
+                            brilliant ideas born at 3 AM. Some even compile.
                         </p>
 
                         <ul
@@ -148,7 +137,7 @@ const GithubStats: React.FC = () => {
                                 <li
                                     key={lang.name}
                                     style={{
-                                        flex: "1 1 45%", // due colonne su schermi medi
+                                        flex: "1 1 45%",
                                         minWidth: "140px",
                                         display: "flex",
                                         alignItems: "center",
@@ -158,33 +147,33 @@ const GithubStats: React.FC = () => {
                                         transition: "background 0.3s",
                                     }}
                                     onMouseEnter={(e) => {
-                                        (e.currentTarget.style.background = "rgba(255,255,255,0.12)");
+                                        e.currentTarget.style.background =
+                                            "rgba(255,255,255,0.12)";
                                     }}
                                     onMouseLeave={(e) => {
-                                        (e.currentTarget.style.background = "rgba(255,255,255,0.05)");
+                                        e.currentTarget.style.background =
+                                            "rgba(255,255,255,0.05)";
                                     }}
                                 >
-                                    {/* badge colore */}
-                                    <span
-                                        style={{
-                                            display: "inline-block",
-                                            width: "12px",
-                                            height: "12px",
-                                            borderRadius: "50%",
-                                            background: COLORS[idx % COLORS.length],
-                                            marginRight: "0.75rem",
-                                        }}
-                                    />
+                  <span
+                      style={{
+                          display: "inline-block",
+                          width: "12px",
+                          height: "12px",
+                          borderRadius: "50%",
+                          background: COLORS[idx % COLORS.length],
+                          marginRight: "0.75rem",
+                      }}
+                  />
                                     <span style={{ flexGrow: 1, textTransform: "capitalize" }}>
-        {lang.name}
-      </span>
+                    {lang.name}
+                  </span>
                                     <span style={{ fontWeight: "bold", marginLeft: "0.5rem" }}>
-        {lang.value.toFixed(1)}%
-      </span>
+                    {lang.value.toFixed(1)}%
+                  </span>
                                 </li>
                             ))}
                         </ul>
-
                     </motion.div>
 
                     {/* 🎨 GRAFICO PIECHART */}
