@@ -19,35 +19,19 @@ const GithubStats = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const user = "sprigatita"; // 👈 il tuo username GitHub
-                const token = import.meta.env.VITE_GITHUB_TOKEN;
-                const headers = {};
-                if (token) {
-                    headers.Authorization = `token ${token}`;
-                }
-                if (!token) {
-                    console.warn("%c⚠️ GitHub token mancante:", "color: orange; font-weight: bold;", "le API funzioneranno ma con limiti (60 richieste/ora)");
-                }
-                // Ottieni le repo pubbliche
-                const res = await fetch(`https://api.github.com/users/${user}/repos`, {
-                    headers,
-                });
+                const res = await fetch("/api/github"); // ✅ chiamata al proxy server
                 if (!res.ok)
-                    throw new Error(`GitHub API error: ${res.status}`);
-                const data = await res.json();
-                setRepos(data);
-                // Calcola linguaggi più usati
-                const langMap = {};
-                await Promise.all(data.slice(0, 10).map(async (repo) => {
-                    const langRes = await fetch(repo.languages_url, { headers });
-                    const langData = await langRes.json();
-                    for (const [lang, bytes] of Object.entries(langData)) {
-                        langMap[lang] = (langMap[lang] || 0) + bytes;
-                    }
-                }));
-                const total = Object.values(langMap).reduce((a, b) => a + b, 0);
+                    throw new Error(`Server API error: ${res.status}`);
+                const { repos, languages: langMap } = await res.json();
+                setRepos(repos);
+                const total = Object.values(langMap)
+                    .filter((v) => typeof v === "number")
+                    .reduce((a, b) => a + b, 0);
                 const langArray = Object.entries(langMap)
-                    .map(([name, value]) => ({ name, value: (value / total) * 100 }))
+                    .map(([name, value]) => ({
+                    name,
+                    value: (value / total) * 100,
+                }))
                     .sort((a, b) => b.value - a.value);
                 setLanguages(langArray);
             }
@@ -70,12 +54,12 @@ const GithubStats = () => {
             alignItems: "center",
             gap: "4rem",
             minHeight: "60vh",
-            flexDirection: "row", // 👈 testo a sinistra, grafico a destra
+            flexDirection: "row",
         }, children: loading ? (_jsx("p", { style: { opacity: 0.7 }, children: "Loading GitHub data..." })) : error ? (_jsxs("p", { style: { color: "red" }, children: ["Error: ", error] })) : (_jsxs(_Fragment, { children: [_jsxs(motion.div, { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay: 0.2 }, style: {
                         maxWidth: "420px",
                         textAlign: "left",
                         flex: "1 1 300px",
-                    }, children: [_jsx(TextPressure, { text: "Some boring numbers", scale: true }), _jsxs("p", { style: { opacity: 0.8, marginBottom: "1.5rem" }, children: ["Currently juggling", " ", _jsx("strong", { children: repos.length }), " repositories. My GitHub is a chaotic mix of empty repos, university projects, and brilliant ideas born at 3 AM. Some even compile."] }), _jsx("ul", { style: {
+                    }, children: [_jsx(TextPressure, { text: "Some boring numbers", scale: true }), _jsxs("p", { style: { opacity: 0.8, marginBottom: "1.5rem" }, children: ["Currently juggling ", _jsx("strong", { children: repos.length }), " repositories. My GitHub is a chaotic mix of empty repos, university projects, and brilliant ideas born at 3 AM. Some even compile."] }), _jsx("ul", { style: {
                                 opacity: 0.9,
                                 lineHeight: 1.8,
                                 display: "flex",
@@ -85,7 +69,7 @@ const GithubStats = () => {
                                 margin: 0,
                                 listStyle: "none",
                             }, children: languages.slice(0, 5).map((lang, idx) => (_jsxs("li", { style: {
-                                    flex: "1 1 45%", // due colonne su schermi medi
+                                    flex: "1 1 45%",
                                     minWidth: "140px",
                                     display: "flex",
                                     alignItems: "center",
@@ -94,9 +78,9 @@ const GithubStats = () => {
                                     borderRadius: "6px",
                                     transition: "background 0.3s",
                                 }, onMouseEnter: (e) => {
-                                    (e.currentTarget.style.background = "rgba(255,255,255,0.12)");
+                                    e.currentTarget.style.background = "rgba(255,255,255,0.12)";
                                 }, onMouseLeave: (e) => {
-                                    (e.currentTarget.style.background = "rgba(255,255,255,0.05)");
+                                    e.currentTarget.style.background = "rgba(255,255,255,0.05)";
                                 }, children: [_jsx("span", { style: {
                                             display: "inline-block",
                                             width: "12px",

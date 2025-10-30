@@ -41,8 +41,9 @@ const GithubStats: React.FC = () => {
 
                 setRepos(repos);
 
-                // convertiamo la mappa in array ordinato
-                const total = Object.values(langMap).reduce((a: any, b: any) => a + b, 0);
+                const total = Object.values(langMap)
+                    .filter((v): v is number => typeof v === "number")
+                    .reduce((a, b) => a + b, 0);
                 const langArray = Object.entries(langMap)
                     .map(([name, value]) => ({
                         name,
