@@ -32,58 +32,36 @@ const GithubStats: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = import.meta.env.VITE_GITHUB_TOKEN;
-                const headers: HeadersInit = {};
+        useEffect(() => {
+            const fetchData = async () => {
+                try {
+                    const res = await fetch("/api/github");
+                    if (!res.ok) throw new Error(`Server API error: ${res.status}`);
 
-                if (token) {
-                    (headers as Record<string, string>).Authorization = `token ${token}`;
+                    const { repos, languages: langMap } = await res.json();
+
+                    setRepos(repos);
+
+                    const total = Object.values(langMap)
+                        .filter((v): v is number => typeof v === "number")
+                        .reduce((a, b) => a + b, 0);
+                    const langArray = Object.entries(langMap)
+                        .map(([name, value]) => ({
+                            name,
+                            value: ((value as number) / total) * 100,
+                        }))
+                        .sort((a, b) => b.value - a.value);
+
+                    setLanguages(langArray);
+                } catch (err) {
+                    setError((err as Error).message);
+                } finally {
+                    setLoading(false);
                 }
+            };
 
-
-                if (!token) {
-                    console.warn(
-                        "%c⚠️ GitHub token mancante:",
-                        "color: orange; font-weight: bold;",
-                        "le API funzioneranno ma con limiti (60 richieste/ora)"
-                    );
-                }
-
-                const res = await fetch('/api/github');
-                const data = await res.json();
-
-
-                const langMap: Record<string, number> = {};
-                await Promise.all(
-                    data.slice(0, 10).map(async (repo: any) => {
-                        const langRes = await fetch(repo.languages_url, { headers });
-                        const langData = await langRes.json();
-                        for (const [lang, bytes] of Object.entries(langData)) {
-                            langMap[lang] = (langMap[lang] || 0) + (bytes as number);
-                        }
-                    })
-                );
-
-                const total = Object.values(langMap).reduce((a, b) => a + b, 0);
-                const langArray = Object.entries(langMap)
-                    .map(([name, value]) => ({
-                        name,
-                        value: ((value as number) / total) * 100,
-                    }))
-                    .sort((a, b) => b.value - a.value);
-
-                setLanguages(langArray);
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
+            fetchData();
+        }, []);
 
     return (
         <section
